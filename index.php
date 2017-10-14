@@ -9,7 +9,7 @@ $formRequest = [
 ];
 
 $rules = [
-    'formEmail' => 'email|filled',
+    'formEmail' => 'email:|filled',
     'formName' => 'filled'
 ];
 
