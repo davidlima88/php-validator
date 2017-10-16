@@ -22,17 +22,6 @@ class RequiredRule extends Rule
     }
 
     /**
-     * @param array $request
-     * @param string $field
-     * @param array|null $options
-     * @return boolean
-     */
-    function evaluate(array $request, string $field, array $options = null, string $message = null)
-    {
-       return empty($request[$field]) ? (is_null($message) ? "'$field' is not filled" : $message) : (is_null($request[$field]) ? (is_null($message) ? "'$field' is not filled" : $message) : null);
-    }
-
-    /**
      * @return Rule
      */
     static function getInstance()
@@ -40,7 +29,17 @@ class RequiredRule extends Rule
         if(!isset(self::$ruleInstance)){
             self::$ruleInstance = new RequiredRule();
         }
-
         return self::$ruleInstance;
+    }
+
+    /**
+     * @param array $request
+     * @param string $field
+     * @param array|null $options
+     * @return boolean
+     */
+    function evaluate(array $request, string $field, array $options = null, string $message = null)
+    {
+       return empty($request[$field]) ? (is_null($message) ? "'$field' is not filled" : $message) : (is_null($request[$field]) ? (is_null($message) ? "'$field' is required" : $message) : null);
     }
 }

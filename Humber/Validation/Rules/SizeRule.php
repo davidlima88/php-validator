@@ -40,10 +40,20 @@ class SizeRule extends Rule
      * @param array|null $options
      * @param string|null $message
      * @return string
+     * @throws \Exception
      */
     function evaluate(array $request, string $field, array $options = null, string $message = null)
     {
-        // TODO: Implement evaluate() method.
+        if (is_array($options) && is_numeric($options[0])) {
+            $valid = false;
+            $valid = is_array($request[$field]) ? count($request[$field]) == $options[0] : $valid;
+            $valid = is_numeric($request[$field]) ? $request[$field] == $options[0] : $valid;
+            $valid = is_string($request[$field]) ? strlen($request[$field]) == $options[0] : $valid;
+            $valid = is_string($request[$field]) && is_file($request[$field]) ? filesize($request[$field])/1024 == $options[0] : $valid;
+            return !$valid ? (is_null($message) ? "'$field' size is different than $options[0] " : $message) : null;
+        }
+        else
+            throw new \Exception('Rule \'size\' needs one parameter for the size, usage example (size:5)');
     }
 
 }

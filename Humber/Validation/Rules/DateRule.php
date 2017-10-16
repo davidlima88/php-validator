@@ -25,17 +25,6 @@ class DateRule extends Rule
     }
 
     /**
-     * @param array $request
-     * @param string $field
-     * @param array|null $options
-     * @return boolean
-     */
-    function evaluate(array $request, string $field, array $options = null, string $message = null)
-    {
-        return !filter_var($request[$field], FILTER_VALIDATE_DATE) ? (is_null($message) ? "'$field' is not a valid date" : $message) : null;
-    }
-
-    /**
      * @return Rule
      */
     static function getInstance()
@@ -44,5 +33,16 @@ class DateRule extends Rule
             self::$ruleInstance = new DateRule();
         }
         return self::$ruleInstance;
+    }
+
+    /**
+     * @param array $request
+     * @param string $field
+     * @param array|null $options
+     * @return boolean
+     */
+    function evaluate(array $request, string $field, array $options = null, string $message = null)
+    {
+        return !strtotime($request[$field]) ? (is_null($message) ? "'$field' is not a valid date" : $message) : null;
     }
 }

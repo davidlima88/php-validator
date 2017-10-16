@@ -16,19 +16,9 @@ class AlphaNumRule extends Rule
     const RULETYPE = "alpha_num";
     private static $ruleInstance;
 
-    public function __construct(){
-        $this->ruleType = self::RULETYPE;
-    }
-
-    /**
-     * @param array $request
-     * @param string $field
-     * @param array|null $options
-     * @return boolean
-     */
-    function evaluate(array $request, string $field, array $options = null, string $message = null)
+    public function __construct()
     {
-        return !filter_var($request[$field], FILTER_VALIDATE_ALPHA_NUM) ? (is_null($message) ? "'$field' is not a valid string" : $message) : null;
+        $this->ruleType = self::RULETYPE;
     }
 
     /**
@@ -40,5 +30,17 @@ class AlphaNumRule extends Rule
             self::$ruleInstance = new AlphaNumRule();
         }
         return self::$ruleInstance;
+    }
+
+    /**
+     * @param array $request
+     * @param string $field
+     * @param array|null $options
+     * @param string|null $message
+     * @return bool
+     */
+    function evaluate(array $request, string $field, array $options = null, string $message = null)
+    {
+        return !ctype_alnum($request[$field]) ? (is_null($message) ? "'$field' is not a valid alphanumeric string" : $message) : null;
     }
 }

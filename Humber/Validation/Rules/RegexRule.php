@@ -22,17 +22,6 @@ class RegexRule extends Rule
     }
 
     /**
-     * @param array $request
-     * @param string $field
-     * @param array|null $options
-     * @return boolean
-     */
-    function evaluate(array $request, string $field, array $options = null, string $message = null)
-    {
-        return !filter_var($request[$field], FILTER_VALIDATE_REGEX) ? (is_null($message) ? "'$field' is not a valid expression" : $message) : null;
-    }
-
-    /**
      * @return Rule
      */
     static function getInstance()
@@ -42,5 +31,21 @@ class RegexRule extends Rule
         }
 
         return self::$ruleInstance;
+    }
+
+    /**
+     * @param array $request
+     * @param string $field
+     * @param array|null $options
+     * @param string|null $message
+     * @return bool
+     * @throws \Exception
+     */
+    function evaluate(array $request, string $field, array $options = null, string $message = null)
+    {
+        if (is_array($options) && preg_match("/^((?:(?:[^?+*{}()[\]\\|]+|\\.|\[(?:\^?\\.|\^[^\\]|[^\\^])(?:[^\]\\]+|\\.)*\]|\((?:\?[:=!]|\?<[=!]|\?>)?(?1)??\)|\(\?(?:R|[+-]?\d+)\))(?:(?:[?+*]|\{\d+(?:,\d*)?\})[?+]?)?|\|)*)$/", $options[0]))
+            return !preg_match($options[0], $request[$field]) ? (is_null($message) ? "'$field' doesn't match the regular expression given" : $message) : null;
+        else
+            throw new \Exception('Rule \'regex\' needs one parameter with a valid regular expression to evaluate, usage example (regex:/^\/[\s\S]+\/$/)');
     }
 }

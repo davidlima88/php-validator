@@ -22,17 +22,6 @@ class JsonRule extends Rule
     }
 
     /**
-     * @param array $request
-     * @param string $field
-     * @param array|null $options
-     * @return boolean
-     */
-    function evaluate(array $request, string $field, array $options = null, string $message = null)
-    {
-        return !filter_var($request[$field], FILTER_VALIDATE_JSON) ? (is_null($message) ? "'$field' is not a valid json" : $message) : null;
-    }
-
-    /**
      * @return Rule
      */
     static function getInstance()
@@ -42,5 +31,17 @@ class JsonRule extends Rule
         }
 
         return self::$ruleInstance;
+    }
+
+    /**
+     * @param array $request
+     * @param string $field
+     * @param array|null $options
+     * @return boolean
+     */
+    function evaluate(array $request, string $field, array $options = null, string $message = null)
+    {
+        json_decode($request[$field]);
+        return json_last_error() != JSON_ERROR_NONE ? (is_null($message) ? "'$field' is not a valid json" : $message) : null;
     }
 }

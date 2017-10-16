@@ -26,17 +26,6 @@ class DigitsRule extends Rule
     }
 
     /**
-     * @param array $request
-     * @param string $field
-     * @param array|null $options
-     * @return boolean
-     */
-    function evaluate(array $request, string $field, array $options = null, string $message = null)
-    {
-        return !filter_var($request[$field], FILTER_VALIDATE_DIGITS) ? (is_null($message) ? "'$field' is not a valid number" : $message) : null;
-    }
-
-    /**
      * @return Rule
      */
     static function getInstance()
@@ -45,5 +34,21 @@ class DigitsRule extends Rule
             self::$ruleInstance = new DigitsRule();
         }
         return self::$ruleInstance;
+    }
+
+    /**
+     * @param array $request
+     * @param string $field
+     * @param array|null $options
+     * @param string|null $message
+     * @return bool
+     * @throws \Exception
+     */
+    function evaluate(array $request, string $field, array $options = null, string $message = null)
+    {
+        if (is_array($options) && ctype_digit($options[0]))
+            return !(ctype_digit($request[$field]) && strlen($request[$field]) == $options[0]) ? (is_null($message) ? "'$field' is not a valid number or its length is different than $options[0] " : $message) : null;
+        else
+            throw new \Exception('Rule \'digits\' needs one parameter for the number of digits, usage example (digits:5)');
     }
 }

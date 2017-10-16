@@ -22,17 +22,6 @@ class ArrayRule extends Rule
     }
 
     /**
-     * @param array $request
-     * @param string $field
-     * @param array|null $options
-     * @return boolean
-     */
-    function evaluate(array $request, string $field, array $options = null, string $message = null)
-    {
-        return is_array($request[$field]) ? (is_null($message) ? "'$field' is not filled" : $message) : null;
-    }
-
-    /**
      * @return Rule
      */
     static function getInstance()
@@ -41,5 +30,16 @@ class ArrayRule extends Rule
             self::$ruleInstance = new ArrayRule();
         }
         return self::$ruleInstance;
+    }
+
+    /**
+     * @param array $request
+     * @param string $field
+     * @param array|null $options
+     * @return boolean
+     */
+    function evaluate(array $request, string $field, array $options = null, string $message = null)
+    {
+        return !is_array($request[$field]) ? (is_null($message) ? "'$field' is not an array" : $message) : null;
     }
 }

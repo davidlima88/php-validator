@@ -73,7 +73,7 @@ class Validator
     {
         $errors = array();
         foreach ($this->rules as $ruleArray) {
-            $errors = $this->getRulesObjects()[$ruleArray['rule']]->validate($request, $ruleArray['field'], $ruleArray['options'], $errors, $ruleArray['message']);
+            $errors = $this->getRulesObjects()[$ruleArray['rule']]->validate($request, $ruleArray['field'], explode(',', $ruleArray['options']), $errors, $ruleArray['message']);
         }
         return $errors;
     }
