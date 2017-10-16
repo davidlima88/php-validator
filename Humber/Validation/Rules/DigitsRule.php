@@ -41,7 +41,7 @@ class DigitsRule extends Rule
      * @param string $field
      * @param array|null $options
      * @param string|null $message
-     * @return bool
+     * @return string|null
      * @throws \Exception
      */
     function evaluate(array $request, string $field, array $options = null, string $message = null)

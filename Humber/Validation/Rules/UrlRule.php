@@ -40,7 +40,7 @@ class UrlRule extends Rule
      * @param array $request
      * @param string $field
      * @param array|null $options
-     * @return boolean
+     * @return string|null
      */
     function evaluate(array $request, string $field, array $options = null, string $message = null)
     {

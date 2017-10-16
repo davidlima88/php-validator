@@ -50,6 +50,14 @@ $messages = [
 $validator = new Validator($rules, $messages);
 $errors = $validator->validate($formRequest);
 ```
+## Exceptions
+The following exceptions could be thrown
+- **Rule 'rulexxxx' couldn't be found** When the rule specified in the rules array is not present in any RULETYPE 
+constant of any of the Rule Classes inside the Rules folder.
+- **'fieldnamexxx' field not found in request** When the request array does not contain the specified fieldname 
+in the rules array.
+- **Rule 'rulexxxx' needs xxx parameter for xxxxxxxxxxx, usage example (rulexxxx:xx)** When the specified rules requires
+parameters which were not sent inside the rules array.
 ## Supported validation rules
 - **alpha_num** The field under validation must be entirely alpha-numeric characters.
 - **array** The field under validation must be a PHP *array*.
@@ -100,7 +108,7 @@ class NewRule extends Rule
      * @param string $field
      * @param array|null $options
      * @param string|null $message
-     * @return bool
+     * @return string|null
      */
     function evaluate(array $request, string $field, array $options = null, string $message = null)
     {

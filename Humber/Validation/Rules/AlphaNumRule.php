@@ -37,7 +37,7 @@ class AlphaNumRule extends Rule
      * @param string $field
      * @param array|null $options
      * @param string|null $message
-     * @return bool
+     * @return string|null
      */
     function evaluate(array $request, string $field, array $options = null, string $message = null)
     {
